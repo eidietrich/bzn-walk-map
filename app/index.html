@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Filler title</title>
+
+<!--build:css css/main.css -->
+<link rel="stylesheet" type="text/css" href="css/viz-style.css">
+<!-- endbuild -->
+
+<body>  
+<div id="viz-container" style="max-width: 600px; min-width: 310px; height: 1000px">
+  <h1> Lorem ipsum headline</h1>
+  <p> This is introductory text. Not too long, but not necessarily short either.</p>
+  <div id="viz" style="width:100%;" ></div>
+</div>
+  <!--build:js js/main.js -->
+<script type="text/javascript" src="js/d3.min.js"></script>
+<script type="text/javascript" src="js/d3-chart.js"></script>
+<!-- endbuild  -->
+<script type="text/javascript">
+  d3.json("data/dummy-data.json", function(error, data) {
+    if (error) throw error;
+
+    var chart = new Chart({
+      element: document.querySelector('#viz'),
+      data: data,
+      config: {
+        ylabel: '$/student',
+        yMin: 0,
+        yMax: 7000
+      },
+      layout: { 
+        'mobileBreak': 480, // px
+        'mobile' : { 
+          'aspect':  1,// height/width
+          'margins': { top: 25, right: 100, bottom: 21, left: 40 }
+        },
+        'desktop': {
+          'aspect':  2/3,// height/width
+          'margins': { top: 25, right: 100, bottom: 21, left: 40 }
+        }
+      }
+    });
+  }); 
+</script>
+</body>
