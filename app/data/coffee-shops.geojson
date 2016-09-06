@@ -1,0 +1,260 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "City Brew Coffee",
+        "type": "coffee shop",
+        "full_addre": "1975  CATTAIL ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0661842,
+          45.7079039
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "City Brew Coffee",
+        "type": "coffee shop",
+        "full_addre": "855 S 29TH AVE BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0760736,
+          45.6707352
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Coldsmoke Coffeehouse",
+        "type": "coffee shop",
+        "full_addre": "2051 W OAK ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0643035,
+          45.6942512
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Daily Coffee Bar",
+        "type": "coffee shop",
+        "full_addre": "1013 W COLLEGE ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0516182,
+          45.6716346
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Daily Coffee Bar",
+        "type": "coffee shop",
+        "full_addre": "1203 N ROUSE AVE BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0319821,
+          45.691719
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Wild Joe's Coffee",
+        "type": "coffee shop",
+        "full_addre": "18 W MAIN ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0378946,
+          45.6791052
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Cafe M",
+        "type": "coffee shop",
+        "full_addre": "33 E KAGY BLVD BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0384731,
+          45.66079142
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Cafe M",
+        "type": "coffee shop",
+        "full_addre": "777 E MAIN ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.026678,
+          45.6796173
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "International Coffee Traders",
+        "type": "coffee shop",
+        "full_addre": "720 S 10TH AVE BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0504237,
+          45.6716749
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Lindley Perk",
+        "type": "coffee shop",
+        "full_addre": "626 E MAIN ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0273105,
+          45.678727
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Rockford Coffee",
+        "type": "coffee shop",
+        "full_addre": "628 W MAIN ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0364755,
+          45.67911464
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Starbucks",
+        "type": "coffee shop",
+        "full_addre": "1765 N 19TH AVE BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0634247,
+          45.6968523
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Starbucks",
+        "type": "coffee shop",
+        "full_addre": "1122 W MAIN ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0526793,
+          45.6789133
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Townshend's Teahouse",
+        "type": "coffee shop",
+        "full_addre": "402 E MAIN ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0317411,
+          45.6790398
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Wild Crumb",
+        "type": "coffee shop",
+        "full_addre": "600 N WALLACE AVE BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0280316,
+          45.6859102
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Zocalo",
+        "type": "coffee shop",
+        "full_addre": "117 E MAIN ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0350631,
+          45.6795072
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "name": "Toppers Frozen Yogurt",
+        "type": "coffee shop",
+        "full_addre": "1011 W COLLEGE ST BOZEMAN, MT"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          -111.0512701,
+          45.6714621
+        ]
+      }
+    }
+  ]
+}
