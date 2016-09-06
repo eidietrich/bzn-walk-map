@@ -26,7 +26,7 @@ gulp.task('default', function(callback){
 // Build /app -> /dist
 gulp.task('build', function(callback){
     runSequence('clean:dist',
-        ['concat'],
+        ['concat', 'images'],
         callback
     );
 });
@@ -38,6 +38,7 @@ gulp.task('watch', ['browserSync'], function(){
     gulp.watch('app/css/**/*.css', browserSync.reload);
     gulp.watch('app/js/**/*.js', browserSync.reload);
     gulp.watch('app/data/**/*.*', browserSync.reload);
+    gulp.watch('app/images/**/*.*',browserSync.reload);
 });
 
 // Sets up development server
@@ -53,9 +54,15 @@ gulp.task('browserSync', function(){
 gulp.task('concat', function(){
     return gulp.src('app/*.html')
         .pipe(useref())
-        .pipe(gulpIf('*.js', uglify()))
+        // .pipe(gulpIf('*.js', uglify()))
         .pipe(gulpIf('*.css', cssnano()))
         .pipe(gulp.dest('dist'));
+});
+
+// Image handling (just pass-through now)
+gulp.task('images', function(){
+    return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
+        .pipe(gulp.dest('dist/images'));
 });
 
 // Cleans dist folder

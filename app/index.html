@@ -1,293 +1,43 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Filler title</title>
+<title>How walkable is Bozeman?</title>
 
 <!--build:css css/main.css -->
 <link rel="stylesheet" type="text/css" href="css/viz-style.css">
 <link rel="stylesheet" type="text/css" href="css/leaflet.css">
+<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
 <!-- endbuild -->
 
-<body>  
-<div id="viz-container" style="max-width: 600px; min-width: 310px; height: 1000px">
-  <h1> Lorem ipsum headline</h1>
-  <p> This is introductory text. Not too long, but not necessarily short either.</p>
-  <div id="map" style="width:100%; height: 400px;" ></div>
+<body>
+<div id="viz-container" style="max-width: 600px; min-width: 320px;">
+  <div id="viz-intro" class="text-box">
+    <h1>How walkable is your Bozeman neighborhood?</h1>
+    <hr />
+    <h3>And  how does it stack up against other parts of town?</h3>
+    <hr />
+    <p>Bozeman's parks (<span class='place-icon park'></span>) and schools (<span class='place-icon school'></span>) are spread throughout the community, but establishments like restaurants (<span class='place-icon restaurant'></span>), coffee shops (<span class='place-icon coffee'></span>) and grocery stores (<span class='place-icon grocery'></span>) tend to cluster along major roads &mdash; meaning not everyone has easy access to them on foot or bike.
+    <p>Click the buttons below to see how two parts of Bozeman compare in terms of distance to amenities, or tap the map itself to check out a particular spot.</p>
+  </div>
+  
+  <div id="map" style="width:100%; height: 300px;" ></div>
+  <div id="button-container"></div>
+  <div id="info" class="text-box"></div>
+  <hr />
+  <div id="viz-folo" class="text-box">
+    <p class="data-attribution">Interactive by Eric Dietrich, using <a href="http://leafletjs.com/">Leaflet</a>. Map tiles by <a href="http://stamen.com">Stamen Design</a>, under <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> and <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.</p>
+  </div>
+
 
 </div>
-  <!--build:js js/main.js -->
+
+<!--build:js js/main.js -->
 <script type="text/javascript" src="js/leaflet.js"></script>
-<script type="text/javascript" src="js/d3.min.js"></script>
-<script type="text/javascript" src="js/d3-chart.js"></script>
 <script type="text/javascript" src="http://maps.stamen.com/js/tile.stamen.js?v1.3.0"></script>
+<script type="text/javascript" src="js/d3.min.js"></script>
 <script type="text/javascript" src="js/jquery-3.1.0.min.js"></script>
-
+<script type='text/javascript' src="js/walk-map.js"></script>
 <!-- endbuild  -->
-<script type="text/javascript">
-  // DATA FOR TESTING 
-  var fromPoints = {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": {
-          "name": "a",
-          "type": "test"
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            -111.07023239135742,
-            45.68447721439646
-          ]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": {
-          "name": "b",
-          "type": "test"
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            -111.03195190429686,
-            45.67140394831587
-          ]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": {
-          "name": "c",
-          "type": "test"
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            -111.05873107910156,
-            45.66468622022305
-          ]
-        }
-      },
-      {
-        "type": "Feature",
-        "properties": {
-          "name": "d",
-          "type": "test"
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [
-            -111.03744506835938,
-            45.69227174496596
-          ]
-        }
-      }
-    ]
-  };
-  var toPoint = {
-    "type": "FeatureCollection",
-    "features": [
-      {
-        "type": "Feature",
-        "properties": {
-          "name": 'toPoint'
-        },
-        "geometry": {
-          "type": "Point",
-          "coordinates": [ -111., 45.7 ]
-        }
-      }
-    ]
-  };
-
-  // MAP OBJECTS
-  var map = L.map('map', {
-    center: [45.68,-111.05],
-    zoom: 12,
-  });
-  var baseLayer = new L.StamenTileLayer("terrain-lines");
-
-  // STYLES
-  var pointMarkerStyle = {
-    radius: 4,
-    fillColor: "#ff7800",
-    color: "#eee",
-    weight: 1,
-    opacity: 1,
-    fillOpacity: 0.8
-  };
-
-  var toPointMarkerStyle = {
-    radius: 8,
-    fillColor: "#00ff08",
-    color: "#000",
-    weight: 1,
-    opacity: 1,
-    fillOpacity: 0.8
-  };
-
-  var lineStyle = {
-    color: "#0033ff",
-    weight: 3,
-    opacity: 0.9,
-    clickable: false
-  };
-
-  map.addLayer(baseLayer);
-
-  // var fromPointLayer = L.geoJson(fromPoints, {
-  //   pointToLayer: function(feature, latlng) {
-  //     return L.circleMarker(latlng, pointMarkerStyle);
-  //   }
-  // });
-
-  var sourcePoints = new L.geoJson(null, {
-    style: pointMarkerStyle,
-    pointToLayer: function(feature, latlng) {
-      return L.circleMarker(latlng, toPointMarkerStyle);
-    }
-  });
-  
-  var toPointLayer = new L.geoJson(toPoint, {
-    pointToLayer: function(feature, latlng) {
-      return L.circleMarker(latlng, toPointMarkerStyle);
-    }
-  });
-
-  function flip(xy_array){
-    // Swaps 0 and 1 coordinate to get from xy to lat-long coords
-    return [xy_array[1], xy_array[0]];
-  }
 
 
-  
-
-  function drawConnections(sourcePointsLayer, destPointLayer){
-    var DRAW_LIMIT = 3;
-
-    connections = calcConnections(sourcePointsLayer, destPointLayer);
-    // sort asceding connections by distance 
-    connections.sort(function(a,b){
-      return a.distance - b.distance;
-    });
-
-    connections = connections.slice(0,DRAW_LIMIT)
-
-
-    connections.forEach(function(conn){
-      var pointArray = [conn.sourcePoint, conn.targetPoint];
-      L.polyline(pointArray, lineStyle).addTo(map);
-    });
-  }
-  function calcConnections(sourcePointsLayer, destPointLayer){
-    var M_PER_MI = 1609.34;
-
-    fromPoints = sourcePointsLayer.toGeoJSON();
-    toPoint = destPointLayer.toGeoJSON();
-
-    toLatLng = new L.latLng(flip(toPoint.features[0].geometry.coordinates));
-
-    var connections = [];
-
-    fromPoints.features.forEach(function(feature){
-      conn = {};
-      conn.sourcePoint = new L.latLng(flip(feature.geometry.coordinates));
-      conn.targetPoint = toLatLng;
-      conn.distance = conn.sourcePoint.distanceTo(toLatLng) / M_PER_MI;
-      conn.name = feature.properties.name;
-      conn.type = feature.properties.type;
-      connections.push(conn);
-    });
-
-    return connections;
-  }
-
-
-  
-  function renderMap(){
-    drawConnections(sourcePoints, toPointLayer);
-    sourcePoints.addTo(map);
-    toPointLayer.addTo(map);
-  }
-
-  $.ajax({
-    dataType: "json",
-    url: "data/coffee-shops.geojson",
-    success: function(data) {
-      sourcePoints.addData(data);
-      renderMap();
-    }
-  });
-
-  
-// OLD STUFF
-
-// function getLatLngFromGeoJSON(geoJson){
-  //   // returns coordinates in GeoJSON points as array of [lat, long] coords
-  //   outCoords = [];
-  //   geoJson.features.forEach(function(feature){
-  //     coord = feature.geometry.coordinates;
-  //     outCoords.push(flip(coord)); // flip from x,y to lat,lng
-  //   });
-
-  //   return outCoords;
-
-  // } 
-
-  // TODO: 
-  // Put together array for each connection:
-  // attributes: sourceCoord, destCoord, distance, type
-  
-  // function drawConnectingLines(sourcePointsLayer, destPointLayer){
-  //   // Draws a line from each testData point to the toPoint
-    
-  //   fromPoints = sourcePointsLayer.toGeoJSON();
-  //   toPoint = destPointLayer.toGeoJSON();
-
-  //   toLatLng = getLatLngFromGeoJSON(toPoint)[0];
-  //   fromLatLngs = getLatLngFromGeoJSON(fromPoints);
-
-  //   fromLatLngs.forEach(function(fromLatLng){
-  //     var pointArray = [fromLatLng, toLatLng];
-  //     L.polyline(pointArray, lineStyle).addTo(map);
-  //   });
-  // }  
-  
-
-
-  // L.polyline([toLatLng,[45.69, -111.036]]).addTo(map);
-
-//   var polyline = L.polyline([
-//     [45.68, -111.03],
-//     [45.69, -111.036],
-//     [45.69, -111.03]
-// ]).addTo(map);
-
-  // d3.json("data/dummy-data.json", function(error, data) {
-  //   if (error) throw error;
-
-  //   var chart = new Chart({
-  //     element: document.querySelector('#viz'),
-  //     data: data,
-  //     config: {
-  //       ylabel: '$/student',
-  //       yMin: 0,
-  //       yMax: 7000
-  //     },
-  //     layout: { 
-  //       'mobileBreak': 480, // px
-  //       'mobile' : { 
-  //         'aspect':  1,// height/width
-  //         'margins': { top: 25, right: 100, bottom: 21, left: 40 }
-  //       },
-  //       'desktop': {
-  //         'aspect':  2/3,// height/width
-  //         'margins': { top: 25, right: 100, bottom: 21, left: 40 }
-  //       }
-  //     }
-  //   });
-  // }); 
-</script>
 </body>

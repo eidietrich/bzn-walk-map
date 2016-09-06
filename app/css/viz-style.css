@@ -1,4 +1,4 @@
-@media (max-width: 480px){
+/*@media (max-width: 480px){
   h1 {
     font-size: 1.5em;
   }
@@ -41,9 +41,6 @@ p {
   shape-rendering: crispEdges;
 }
 
-.x.axis path {
-  /*display: none;*/
-}
 .grid {
   fill: none;
   stroke: #ccc;
@@ -58,4 +55,128 @@ p {
   fill: none;
   stroke: steelblue;
   stroke-width: 1.5px;
+}*/
+
+/* TEXT */
+
+
+
+@media (max-width: 480px){
+  h1 {
+    font-size: 1.5em;
+  }
+}
+
+h1, h2, h3, h4 {
+  font-family: 'verdana', sans-serif;
+  text-align: center;
+}
+
+h4 {
+  text-align: left;
+}
+
+p {
+  /*font: 14px sans-serif;*/
+}
+
+#button-container {
+  /*background-color: #bbb;*/
+  /*max-width: 300px;*/
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-left: 10px;
+}
+
+#info {
+  max-width: 350px;
+  margin: 0 auto;
+  padding-left: 10px;
+}
+
+.btn-group {
+  /*margin-left: 10px;*/
+  /*width: 100%;*/
+  /*margin: 5 auto;*/
+}
+/*.btn {
+  width: 33%;
+}*/
+
+.text-box {
+  /*width: 100%;*/
+  margin: 10px;
+}
+
+.data-attribution {
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* NEW STUFF FOR MAPPING */
+
+.place-icon {
+  display: inline-block;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 1.0;
+  width: 14px;
+  height: 14px;
+  background-size: 14px;
+  border-radius: 20%;
+  box-shadow: 1px 1px 2px #666;
+  /*border: 0.5px solid #fff;*/
+}
+span.place-icon {
+  vertical-align: -5%;
+}
+.place-icon.home {
+  opacity: 1;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  box-shadow: 2px 2px 3px #666;
+  background-color: #444;
+  background-image: url('../images/ic_place_white_24px.svg');
+}
+.place-icon.coffee {
+  background-color: #984ea3;
+  background-image: url('../images/ic_local_cafe_white_24px.svg');
+}
+.place-icon.restaurant {
+  background-color: #ff7f00;
+  background-image: url('../images/ic_restaurant_white_24px.svg');
+}
+.place-icon.grocery {
+  background-color: #e41a1c;
+  background-image: url('../images/ic_local_grocery_store_white_24px.svg');
+}
+.place-icon.park {
+  background-color: #4daf4a;
+  background-image: url('../images/ic_local_florist_white_24px.svg');
+}
+.place-icon.school {
+  background-color: #377eb8;
+  background-image: url('../images/ic_school_white_24px.svg');
+}
+
+.conn-line {
+  stroke: #444;
+  stroke-width: 4;
+  stroke-opacity: 1;
+}
+.conn-line.coffee {
+  stroke: #984ea3;
+}
+.conn-line.restaurant {
+  stroke: #ff7f00;
+}
+.conn-line.grocery {
+  stroke: #e41a1c;
+}
+.conn-line.park {
+  stroke: #4daf4a;
+}
+.conn-line.school {
+  stroke: #377eb8;
 }

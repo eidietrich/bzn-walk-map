@@ -1,15 +1,21 @@
-# D3 project template
+# Leaflet Bozeman walkability map
 
-Repository template for d3.js data visulization projects, using gulp.
+Interactive visualizing the distances to restaurants, stores, etc. in different parts of Bozeman.
 
-## Template components
-(in app/ directory, intended folder for development)
+Built on a repository template for d3.js data visulization projects, using gulp.
 
-- index.html - base html template, with inline script calling external data file and creating an instance of a Chart class. Chart is configured with inline-defined config object.
-- js/d3-chart.js - template for a d3 multi-series line chart class, Chart.
-- js/d3.min.js - standard v3 d3.js library.
-- data/dummy-data.json - dummy data set
-- css/viz-style.css - basic chart styling
+## Components
+(in app/ directory, development folder)
+
+- index.html
+- js/walk-map.js - Primary JS file
+- js/d3.min.js - standard v3 d3.js library (used for DOM management)
+- js/leaflet.js - mapping library
+- js/jquery-3.1.0.min.js - Used for AJAX call
+- css/viz-style.css - Map styling
+- css/bootstrap.css - Used for buttons / text
+- css/leaflet.css - CSS for Leafle
+- data/all-bzn-places.geojson - Data for map
 
 node_modules directory contains modules for Gulp operation
 
@@ -24,7 +30,7 @@ $ npm install --global gulp-cli
 ```
 $ gulp
 ```
-Calls gulp default function. Currently starts a development server and calls an automatic referesh on changes to .html, .css, .js or data files.
+Calls gulp default function. Currently starts a development server and calls an automatic referesh on changes.
 
 ### Building distribution files with minified js, etc.
 
@@ -33,8 +39,4 @@ $ gulp build
 ```
 Builds contents of app/ into dist/, concatenating and minifying js and css into a single file.
 
-## TODO
-
-- Clean up CSS
-- Work on abstracting chart template
-- Figure out how to incorporate D3.js v 4.0 into this.
+(This is having trouble with the Stamen tiles extension to Leaflet.js. Abandoning build portion of this for the time being...)
