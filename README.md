@@ -4,6 +4,13 @@ Interactive visualizing the distances to restaurants, stores, etc. in different 
 
 Built on a repository template for d3.js data visulization projects, using gulp.
 
+## TODOS:
+
+- Usability testing from github.io
+- Seems like Leaflet zoom is hanging on my iPhone 6 (otherwise, things run pretty smoothly). Or are icons are taking too long to load?
+- See to-dos in walk-map.js
+- Refactor for elegance before I forget how the code is put together
+
 ## Components
 (in app/ directory, development folder)
 
