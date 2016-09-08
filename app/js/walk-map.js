@@ -3,11 +3,11 @@
 
   TODOS:
 
-  - Add link to code on Github
+  - Add in walkspeed / time estimate
+  - Add paragraph to bottom explaining time estimate
 
   Possible extras:
   - toggles for each establishment type?
-  - Data walk time estimate (weird b/c of routing)
   - Address to coordinate functionality (geocode?, autocomplete?) See: http://rjshade.com/projects/gmaps-autocomplete/
   - Add label layer
   - Legend/toggles for each establishment type
@@ -17,7 +17,6 @@
   
   Data quirks:
   - Currently missing anything out near Four Corners. How to get this (other than Googling?)
-  - Where is Bozeman Pond park?
   */
   
 
@@ -26,41 +25,58 @@
   var INITIAL_TARGET_POINT = null;
   var MAP_DEFAULT = {
     center: [45.68,-111.06],
-    zoom: 12
+    zoom: 13
   };
+  var WALK_SPEED = 3.1; // miles / hour
 
   // GLOBAL MAP OBJECTS
   var map = new L.map('map', {
    center: MAP_DEFAULT.center,
    zoom: MAP_DEFAULT.zoom,
-   attributionControl: false,  
+   attributionControl: false,
+   minZoom: 12,
+   maxZoom: 15, 
+   scrollWheelZoom: false,
+   maxBounds: [[45.751,-110.866],[45.607,-111.253]]   
   });
   var baseLayer = new L.StamenTileLayer("terrain-lines");
   var labelLayer = new L.StamenTileLayer("toner-labels");
   
-
   var infoBox = d3.select('#info');
   
-
   var scale = L.control.scale({
     metric: false
   });
 
+  var buttons = [
+    {name: 'Southside', className: 'place-icon home', onClick: function() {moveTargetMarker([45.6733686, -111.0415]); } },
+    {name: 'Westside', className: 'place-icon home', onClick: function() {moveTargetMarker([45.688698, -111.086413]); }},
+    {name: 'Reset', className: null, onClick: resetMap},
+  ];
+
+  var legend = [
+    {key: 'coffee shop', className: 'place-icon coffee', label: 'Coffee shop', text: 'Coffee shops, ice cream shops and bakeries'},
+    {key: 'restaurant', className: 'place-icon restaurant', label: 'Restaurant', text: 'Restaurants, bars and breweries'},
+    {key: 'grocery store', className: 'place-icon grocery', label: 'Grocery', text: 'Grocery stores, excluding convenience stores'},
+    {key: 'park', className: 'place-icon park', label: 'Park', text: 'Larger public parks'},
+    {key: 'school', className: 'place-icon school', label: 'School', text: 'Public elementary schools'},
+    ];
+
+  var walkTimeExplanation = "Walk times calculated for distances as the crow flies, assume a " + WALK_SPEED + " mph walking speed.";
+
   var formatMiles = d3.format('.1f');
+  var formatMin = d3.format('.0f');
 
   // State objects
   var targetPointAcquired = false;
   var resultsToDisplay = false;
   var info = null; // could rename to results, perhaps redundant
 
-  // TODO: Consolidate writing / label / legend object outside of function calls
-
   // LAYERS 
   var sourcePointsLayer = new L.geoJson(null, {
       pointToLayer: function(feature, latlng) {
         return L.marker(latlng, {icon: iconSort(feature.properties.type)
         });
-        // return L.circleMarker(latlng, pointMarkerStyle);
       }
     });
 
@@ -74,7 +90,6 @@
     }),
     zIndexOffset: 1000
   });
-
 
   // TODO: iconSort & lineStyle functions have redundant switch statement - could consolidate
   function iconSort(type){
@@ -142,41 +157,19 @@
     sourcePointsLayer.addTo(map);
     map.addLayer(labelLayer);
     scale.addTo(map);
+    // Adjust scale bar opacity (hacky)
+    d3.select('.leaflet-control-scale-line')
+      .style("background","rgba(255,255,255,0.8)");
 
     addButtonBar();
     renderInfoBox();
-    
-    $.ajax({
-      dataType: "json",
-      url: "data/all-bzn-places.geojson",
-      success: function(data) {
-        sourcePointsLayer.addData(data);
-        targetPointLayer.addTo(map);
-        renderMap();
-        map.on('click', handleMapClick);
-      }
+
+    d3.json("data/all-bzn-places.geojson", function(data){
+      sourcePointsLayer.addData(data);
+      targetPointLayer.addTo(map);
+      renderMap();
+      map.on('click', handleMapClick);
     });
-  }
-
-  function addButtonBar(){
-    var buttons = [
-      {name: '3rd/Dickerson', onClick: function() {moveTargetMarker([45.6733686, -111.0415]); } },
-      {name: 'Annie/Meagher', onClick: function() {moveTargetMarker([45.688698, -111.086413]); }},
-      {name: 'Reset', onClick: resetMap},
-    ];
-
-    d3.select('#button-container')
-      .append("div")
-        .attr("class", "btn-group")
-        .attr("role","group")
-        .selectAll("button")
-          .data(buttons).enter()
-          .append("button")
-          .attr("type", "button")
-          .attr("name", function(d){ return d.name; })
-          .attr("class", "btn btn-default")
-          .text(function(d){ return d.name; })
-          .on("click", function(d){ d.onClick(); });
   }
 
   function renderMap(){
@@ -191,18 +184,29 @@
     }
   }
 
+  function addButtonBar(){
+    var button = d3.select('#button-container')
+      .append("div")
+        .attr("class", "btn-group")
+        .attr("role","group")
+        .selectAll("button")
+          .data(buttons).enter()
+          .append("button")
+          .attr("type", "button")
+          .attr("name", function(d){ return d.name; })
+          .attr("class", "btn btn-default")
+          .text(function(d){ return d.name; })
+          .on("click", function(d){ d.onClick(); })
+          .append('span')
+            .attr("class", function(d){ return d.className; })
+            .attr("style", "border: none; margin-left: 3px; box-shadow: none;");
+
+  }
+
   function renderInfoBox(){
-    var legend = [
-    {key: 'coffee shop', className: 'place-icon coffee', label: 'Coffee shop', text: 'Coffee shops, ice cream shops and bakeries'},
-    {key: 'restaurant', className: 'place-icon restaurant', label: 'Restaurant', text: 'Restaurants, bars and breweries'},
-    {key: 'grocery store', className: 'place-icon grocery', label: 'Grocery', text: 'Grocery stores, excluding convenience stores'},
-    {key: 'park', className: 'place-icon park', label: 'Park', text: 'Larger public parks'},
-    {key: 'school', className: 'place-icon school', label: 'School', text: 'Public elementary schools'},
-    ];
 
     infoBox.selectAll('*').remove();
     
-
     if (info === null) {
       infoBox.append('h4')
         .text("Legend");
@@ -245,10 +249,16 @@
       resultsLine
         .append('span')
         .html(function(d){
-          return "<strong>" + d.name + "</strong>" + ", " + formatMiles(d.distance) + " miles";
+          var name = "<strong>" + d.name + "</strong>, ";
+          var distance = formatMiles(d.distance) + " miles ";
+          var time = "(~" + formatMin(d.distance / WALK_SPEED * 60) + " min)"
+          return  name + distance + time;
         });
+      infoBox.append('p')
+        .text(walkTimeExplanation);
     }
   }
+
   function drawConnections(sourcePointsLayer, destPointLayer){
 
     connections = calcConnections(sourcePointsLayer, destPointLayer);
@@ -298,9 +308,7 @@
         boundPoints.push(conn.sourcePoint);
       });
     });
-    map.fitBounds(L.latLngBounds(boundPoints), {
-      maxZoom: 15,
-    });
+    map.fitBounds(L.latLngBounds(boundPoints));
 
     // Plot connection lines for each establishment type    
     connections.forEach(function(d) {
@@ -358,16 +366,7 @@
     renderInfoBox();
   }
 
-  // Screen movement
-
-  function scrollToElement(id){
-    // Trying to use this to focus graphic on map on button press, but it seems to be inconsistent
-    // Currently not hooked up to anything
-    $('body').animate({
-      scrollTop: $('#' + id).offset().top
-    }, 100);
-  }
-
+  
   // Utility functions
 
   function flip(xy_array){

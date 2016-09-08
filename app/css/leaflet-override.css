@@ -1,0 +1,5 @@
+/* Hacky CSS to override leaflet defaults I can't figure out how to change more elegantly */
+
+.leaflet-container {
+  cursor: pointer;
+}

@@ -26,7 +26,7 @@ gulp.task('default', function(callback){
 // Build /app -> /dist
 gulp.task('build', function(callback){
     runSequence('clean:dist',
-        ['concat', 'images'],
+        ['concat', 'images', 'data'],
         callback
     );
 });
@@ -54,7 +54,7 @@ gulp.task('browserSync', function(){
 gulp.task('concat', function(){
     return gulp.src('app/*.html')
         .pipe(useref())
-        // .pipe(gulpIf('*.js', uglify()))
+        .pipe(gulpIf('*.js', uglify()))
         .pipe(gulpIf('*.css', cssnano()))
         .pipe(gulp.dest('dist'));
 });
@@ -63,6 +63,12 @@ gulp.task('concat', function(){
 gulp.task('images', function(){
     return gulp.src('app/images/**/*.+(png|jpg|jpeg|gif|svg)')
         .pipe(gulp.dest('dist/images'));
+});
+
+// Pipe anything in app data folder to dist data folder
+gulp.task('data', function(){
+    return gulp.src('app/data/**/*.*')
+        .pipe(gulp.dest('dist/data'));
 });
 
 // Cleans dist folder
